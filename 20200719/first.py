@@ -12,7 +12,14 @@ def solution(participant, completion):
     return participant[-1]
 
 
-class TestFirst(unittest.TestCase):
+# 시간 초과
+def solution1(participant, completion):
+    for i in range(len(completion)):
+        participant.remove(completion[i])
+    return participant[0]
+
+
+class TestFirstSolution(unittest.TestCase):
     def test_case1(self):
         # given
         participant = ["leo", "kiki", "eden"]
@@ -37,6 +44,35 @@ class TestFirst(unittest.TestCase):
         completion = ["stanko", "ana", "mislav"]
         # when
         result = solution(participant, completion)
+        # then
+        self.assertEqual(result, "mislav")
+
+
+class TestSecondSolution(unittest.TestCase):
+    def test_case1(self):
+        # given
+        participant = ["leo", "kiki", "eden"]
+        completion = ["eden", "kiki"]
+        # when
+        result = solution1(participant, completion)
+        # then
+        self.assertEqual(result, "leo")
+
+    def test_case2(self):
+        # given
+        participant = ["marina", "josipa", "nikola", "vinko", "filipa"]
+        completion = ["josipa", "filipa", "marina", "nikola"]
+        # when
+        result = solution1(participant, completion)
+        # then
+        self.assertEqual(result, "vinko")
+
+    def test_case3(self):
+        # given
+        participant = ["mislav", "stanko", "mislav", "ana"]
+        completion = ["stanko", "ana", "mislav"]
+        # when
+        result = solution1(participant, completion)
         # then
         self.assertEqual(result, "mislav")
 
