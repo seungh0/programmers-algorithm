@@ -4,43 +4,46 @@
 import unittest
 
 
-class Bridge:
-    def __init__(self, bridge_length, bridge_max_weight):
-        self.bridge_queue = []  # 다리를 건너는 트럭
-        self.LENGTH = bridge_length
-        self.MAX_WEIGHT = bridge_max_weight
-        self.weight = 0
-
-    def enterBridge(self, car):
-        self.weight = self.weight + car.weight
-        self.bridge_queue.insert(0, car)
-
-    def exitBridge(self, car):
-        self.bridge_queue.remove(car)
-        self.weight -= car.weight
-
-    def canAffordWeight(self, weight):
-        return self.MAX_WEIGHT >= self.weight + weight
-
-    def exitCarIfAnyCanExit(self, second):
-        idx = len(self.bridge_queue) - 1
-        while idx >= 0:
-            car = self.bridge_queue[idx]
-            if car.canExit(second):
-                self.exitBridge(car)
-            idx -= 1
-
-
 class Car:
     def __init__(self, weight, exit_second):
         self.weight = weight
         self.exit_second = exit_second
 
-    def __repr__(self):
-        return str(self.weight) + " : " + str(self.exit_second)
-
     def canExit(self, second):
         return self.exit_second <= second
+
+
+class Bridge:
+    def __init__(self, bridge_length, bridge_max_weight):
+        self.LENGTH = bridge_length
+        self.MAX_WEIGHT = bridge_max_weight
+        self.bridge_queue = []  # 다리를 건너는 트럭
+        self.weight = 0
+
+    def enterBridge(self, car):
+        self.bridge_queue.insert(0, car)
+        self.__addCarWeight(car)
+
+    def __addCarWeight(self, car):
+        self.weight += car.weight
+
+    def exitCarsIfAnyCanExit(self, second):
+        idx = len(self.bridge_queue) - 1
+        while idx >= 0:
+            car = self.bridge_queue[idx]
+            if car.canExit(second):
+                self.__exitBridge(car)
+            idx -= 1
+
+    def __exitBridge(self, car):
+        self.bridge_queue.remove(car)
+        self.__subtractCarWeight(car)
+
+    def __subtractCarWeight(self, car):
+        self.weight -= car.weight
+
+    def canAffordWeight(self, weight):
+        return self.MAX_WEIGHT >= self.weight + weight
 
 
 def solution(bridge_length, weight, truck_weights):
@@ -48,7 +51,7 @@ def solution(bridge_length, weight, truck_weights):
     bridge = Bridge(bridge_length, weight)
 
     while len(truck_weights) > 0:
-        bridge.exitCarIfAnyCanExit(second)
+        bridge.exitCarsIfAnyCanExit(second)
 
         if bridge.canAffordWeight(truck_weights[0]):
             bridge.enterBridge(Car(truck_weights[0], second + bridge.LENGTH))
@@ -57,7 +60,7 @@ def solution(bridge_length, weight, truck_weights):
 
     while len(bridge.bridge_queue) > 0:  # 대기 트럭은 모두 빠졋는데, 다리 Queue 에 남아있는 경우 대응
         second += 1
-        bridge.exitCarIfAnyCanExit(second)
+        bridge.exitCarsIfAnyCanExit(second)
 
     return second
 
