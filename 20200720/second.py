@@ -47,16 +47,16 @@ class Bridge:
 
 
 def solution(bridge_length, weight, truck_weights):
-    second = 1  # 경과 시간
+    second = 0  # 경과 시간
     bridge = Bridge(bridge_length, weight)
 
     while len(truck_weights) > 0:
+        second += 1
         bridge.exitCarsIfAnyCanExit(second)
 
         if bridge.canAffordWeight(truck_weights[0]):
             bridge.enterBridge(Car(truck_weights[0], second + bridge.LENGTH))
             truck_weights.pop(0)
-        second += 1
 
     while len(bridge.bridge_queue) > 0:  # 대기 트럭은 모두 빠졋는데, 다리 Queue 에 남아있는 경우 대응
         second += 1
