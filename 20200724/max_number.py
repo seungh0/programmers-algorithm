@@ -9,19 +9,18 @@ class Value:
         self.value = str(value)
 
     def __lt__(self, other):
-        return comparator(self.value, other.value) == -1
+        return self.compare(other) == -1
 
     def __gt__(self, other):
-        return comparator(self.value, other.value) == 1
+        return self.compare(other) == 1
 
     def __eq__(self, other):
-        return comparator(self.value, other.value) == 0
+        return self.compare(other) == 0
 
-
-def comparator(a, b):
-    t1 = a + b
-    t2 = b + a
-    return (int(t1) > int(t2)) - (int(t1) < int(t2))
+    def compare(self, other):
+        t1 = int(self.value + other.value)
+        t2 = int(other.value + self.value)
+        return (t1 > t2) - (t1 < t2)
 
 
 def makeSentence(arr):
