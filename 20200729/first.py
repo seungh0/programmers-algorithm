@@ -12,14 +12,13 @@ def solution(numbers):
 
     temp = list(set(map(int, temp)))
 
-    for i in range(len(temp)):
-        if isDecimal(temp[i]):
+    for i in temp:
+        if isDecimal(i):
             cnt += 1
     return cnt
 
 
 def isDecimal(number):
-    number = int(number)
     if number <= 1:
         return False
     for i in range(2, number):
