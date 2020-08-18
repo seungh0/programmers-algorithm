@@ -23,5 +23,13 @@ def solution():
     print(calculate(m, k, numbers))
 
 
+class UnitTest(unittest.TestCase):
+    def test_calculate(self):
+        M = 8
+        K = 3
+        numbers = [2, 4, 5, 4, 6]
+        self.assertEqual(calculate(M, K, numbers), 46)
+
+
 if __name__ == "__main__":
-    solution()
+    unittest.main()
