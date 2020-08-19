@@ -3,12 +3,13 @@ import unittest
 
 def solution(n, k):
     cnt = 0
-    while n > 1:
-        if n % k == 0:
-            n /= k
-        else:
+    while n >= k:
+        while n % k != 0:
             n -= 1
+            cnt += 1
+        n //= k
         cnt += 1
+    cnt += (n - 1)
     return cnt
 
 
