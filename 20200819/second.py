@@ -4,9 +4,8 @@ import unittest
 def solution(n, k):
     cnt = 0
     while n >= k:
-        while n % k != 0:
-            n -= 1
-            cnt += 1
+        target = (n // k) * k
+        cnt += n - target
         n //= k
         cnt += 1
     cnt += (n - 1)
