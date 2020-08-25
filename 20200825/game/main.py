@@ -26,6 +26,7 @@ def solution(size, start, location):
         if turn_time == 4:
             if character.can_move_back():
                 character.move_back()
+                turn_time = 0
             else:
                 break
     return cnt
