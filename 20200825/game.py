@@ -1,65 +1,86 @@
 import unittest
 
-dx = [-1, 0, 1, 0]
-dy = [0, 1, 0, -1]
+MOVE = [
+    [-1, 0],  # NORTH
+    [0, 1],  # EAST
+    [1, 0],  # SOUTH
+    [0, -1]  # WEST
+]
+
+
+class GameMap:
+    def __init__(self, size, location):
+        self.size_x, self.size_y = size
+        self.location = location
+
+    def convert_land_to_sea(self, x, y):
+        self.location[x][y] = 1
+
+    def is_land(self, x, y):
+        if self.is_out_or_map(x, y):
+            return False
+        return self.location[x][y] == 0
+
+    def is_out_or_map(self, x, y):
+        return x >= self.size_x or y >= self.size_y or x < 0 or y < 0
 
 
 class Character:
-    def __init__(self, x, y, direction, my_map, size):
+    def __init__(self, x, y, direction, game_map):
         self.x = x
         self.y = y
         self.direction = direction  # (0, 북), (1, 동), (2, 남), (3, 서)
-        self.my_map = my_map
-        self.size_x = size[0]
-        self.size_y = size[1]
+        self.game_map = game_map
 
     def turn_left(self):
         self.direction -= 1
         if self.direction == -1:
             self.direction = 3
 
-    def can_move(self):
-        x = self.x + dx[self.direction]
-        y = self.y + dy[self.direction]
-        if x >= self.size_x or y >= self.size_y or x < 0 or y < 0:
-            return False
-        return self.my_map[x][y] == 0
+    def can_move_forward(self):
+        x = self.x + MOVE[self.direction][0]
+        y = self.y + MOVE[self.direction][1]
+        return self.game_map.is_land(x, y)
 
-    def move(self):
-        self.x += dx[self.direction]
-        self.y += dy[self.direction]
-        self.my_map[self.x][self.y] = 1
+    def move_forward(self):
+        self.x += MOVE[self.direction][0]
+        self.y += MOVE[self.direction][1]
+        self.check_in(self.x, self.y)
 
     def can_move_back(self):
-        x = self.x - dx[self.direction]
-        y = self.y - dy[self.direction]
-        if x >= self.size_x or y >= self.size_y or x < 0 or y < 0:
-            return False
-        return self.my_map[x][y] == 0
+        x = self.x - MOVE[self.direction][0]
+        y = self.y - MOVE[self.direction][1]
+        return self.game_map.is_land(x, y)
 
     def move_back(self):
-        self.x -= dx[self.direction]
-        self.y -= dy[self.direction]
-        self.my_map[self.x][self.y] = 1
+        self.x -= MOVE[self.direction][0]
+        self.y -= MOVE[self.direction][1]
+        self.check_in(self.x, self.y)
+
+    def check_in(self, x, y):
+        self.game_map.convert_land_to_sea(x, y)
 
 
 def solution(size, start, location):
-    character = Character(start[0], start[1], start[2], location, size)
+    start_character_x, start_character_y, start_character_direction = start
+
+    game_map = GameMap(size, location)
+    character = Character(start_character_x, start_character_x, start_character_direction, game_map)
 
     cnt = 1
     turn_time = 0
-    character.my_map[start[0]][start[1]] = 1
+    character.check_in(start_character_x, start_character_y)
+
     while True:
         character.turn_left()
-        if character.can_move():
-            character.move()
+        if character.can_move_forward():
+            character.move_forward()
             cnt += 1
             turn_time = 0
         else:
             turn_time += 1
 
         if turn_time == 4:
-            # 뒤로 갈 수 있으면? 가고 아니면 return ctn
             if character.can_move_back():
                 character.move_back()
             else:
