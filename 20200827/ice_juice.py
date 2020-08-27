@@ -55,7 +55,7 @@ class TestSolution(unittest.TestCase):
         result = solution(graph)
 
         # then
-        self.assertEqual(result, 5)
+        self.assertEqual(result, )
 
 
 if __name__ == '__main__':
