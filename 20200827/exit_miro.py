@@ -1,18 +1,12 @@
 import unittest
 from collections import deque
 
-
-class Direction:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-
+# 동서남북
 _directions = [
-    Direction(1, 0),
-    Direction(-1, 0),
-    Direction(0, 1),
-    Direction(0, -1)
+    [0, 1],
+    [0, -1],
+    [1, 0],
+    [-1, 0]
 ]
 
 
@@ -29,8 +23,8 @@ def solution(graph, miro_entrance, miro_exit):
     while queue:
         x, y = queue.popleft()
         for i in range(len(_directions)):
-            dx = x + _directions[i].x
-            dy = y + _directions[i].y
+            dx = x + _directions[i][0]
+            dy = y + _directions[i][1]
             if is_not_road(dx, dy, graph):
                 continue
             graph[dx][dy] = graph[x][y] + 1
