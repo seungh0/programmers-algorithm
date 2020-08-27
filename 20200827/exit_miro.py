@@ -25,11 +25,9 @@ def is_not_road(dx, dy, graph):
 
 
 def solution(graph, miro_entrance, miro_exit):
-    start = miro_entrance
-    queue = deque([start])
+    queue = deque([miro_entrance])
     while queue:
-        pos = queue.popleft()
-        x, y = pos
+        x, y = queue.popleft()
         for i in range(len(_directions)):
             dx = x + _directions[i].x
             dy = y + _directions[i].y
