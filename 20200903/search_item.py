@@ -61,6 +61,17 @@ def solution_3(item, search):
     return result
 
 
+def solution_4(item, search):
+    result = []
+    items = set(item)
+    for i in search:
+        if i in items:
+            result.append('yes')
+        else:
+            result.append('no')
+    return result
+
+
 class MyTestCase(unittest.TestCase):
     def test_something_1(self):
         item = [8, 3, 7, 9, 2]
@@ -78,6 +89,12 @@ class MyTestCase(unittest.TestCase):
         item = [8, 3, 7, 9, 2]
         search = [5, 7, 9]
         result = solution_3(item, search)
+        self.assertEqual(result, ['no', 'yes', 'yes'])
+
+    def test_something_4(self):
+        item = [8, 3, 7, 9, 2]
+        search = [5, 7, 9]
+        result = solution_4(item, search)
         self.assertEqual(result, ['no', 'yes', 'yes'])
 
 
