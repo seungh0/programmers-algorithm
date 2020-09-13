@@ -1,13 +1,11 @@
 import unittest
-from collections import deque
 
 
 def solution(people):
     people.sort()
-    queue = deque(people)
     result = 0
     count = 0
-    for i in queue:
+    for i in people:
         count += 1
         if count >= i:
             result += 1
