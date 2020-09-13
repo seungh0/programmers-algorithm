@@ -13,11 +13,20 @@ def sol_count(arr, dif):
     return cnt
 
 
-def solution(arr):
+def solution2(arr):
     result = []
     num = [0, 1]
     for i in num:
         result.append(sol_count(arr, i))
+    return min(result)
+
+
+def solution(arr):
+    result = [0, 0]
+    result[arr[0]] += 1
+    for i in range(1, len(arr)):
+        if arr[i - 1] != arr[i]:
+            result[arr[i]] += 1
     return min(result)
 
 
