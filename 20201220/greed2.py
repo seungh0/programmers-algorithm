@@ -1,4 +1,4 @@
-₩import unittest
+import unittest
 
 
 def solution(arr, value):
