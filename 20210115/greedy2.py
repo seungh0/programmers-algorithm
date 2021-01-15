@@ -5,15 +5,18 @@ def solution(people, limit):
     board = 0
     people.sort(reverse=True)
 
-    while people:
-        temp = people.pop(0)
+    left = 0
+    right = len(people) - 1
 
-        if len(people) == 0:
+    while left <= right:
+        if left == right:
             return board + 1
 
-        if temp + people[-1] <= limit:
-            people.pop(-1)
+        if people[left] + people[right] <= limit:
+            right -= 1
+        left += 1
         board += 1
+
     return board
 
 
