@@ -16,9 +16,9 @@ def get_smallest_node(n, distance, visited):
 def dijkstra(n, start, graph, distance, visited):
     distance[start] = 0
     visited[start] = True
-    for j in graph[start]:
-        distance[j[0]] = j[1]
-    for i in range(n - 1):
+    for i in graph[start]:
+        distance[i[0]] = i[1]
+    for _ in range(n - 1):
         now = get_smallest_node(n, distance, visited)
         visited[now] = True
         for j in graph[now]:
@@ -42,16 +42,16 @@ def solution(n, graph):
 class MyTestCase(unittest.TestCase):
     def test_something(self):
         n = 6
-        node = [
+        graph = [
             [],
-            [(2, 2), (3, 5), (4, 1)],  # 1
-            [(3, 3), (4, 2)],  # 2
-            [(2, 3), (6, 5)],  # 3
-            [(3, 3), (5, 1)],  # 4
-            [(3, 1), (6, 2)],  # 5
+            [(2, 2), (3, 5), (4, 1)],
+            [(3, 3), (4, 2)],
+            [(2, 3), (6, 5)],
+            [(3, 3), (5, 1)],
+            [(3, 1), (6, 2)],
             []
         ]
-        result = solution(n, node)
+        result = solution(n, graph)
         self.assertEqual(result, [0, 2, 3, 1, 2, 4])
 
 
