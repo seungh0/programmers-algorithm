@@ -1,33 +1,30 @@
 import unittest
 from collections import deque
 
-MAX = 1e9
 
-
-def dijkstra(start, edge, distance, visited):
-    queue = deque([])
-    queue.append((start, 0))
-    distance[start] = 0
+def dijkstra(start, graph, distance, visited):
+    queue = deque([start])
     visited[start] = True
     while queue:
-        start, cost = queue.popleft()
-        visited[start] = True
-        for i in edge:
-            if i[0] == start and not visited[i[1]]:
-                distance[i[1]] = min(distance[i[1]], distance[start] + 1)
-                queue.append((i[1], cost + 1))
-            if i[1] == start and not visited[i[0]]:
-                distance[i[0]] = min(distance[i[0]], distance[start] + 1)
-                queue.append((i[0], cost + 1))
+        node = queue.popleft()
+        for i in graph[node]:
+            if not visited[i]:
+                visited[i] = True
+                queue.append(i)
+                distance[i] = distance[node] + 1
     return distance
 
 
 def solution(n, edge):
-    distance = [MAX] * (n + 1)
-    visited = [False] * (n + 1)
-    distance = dijkstra(1, edge, distance, visited)
-    max_value = max(distance[1:])
-    return distance.count(max_value)
+    graph = [[] for _ in range(n + 1)]
+    distance = [0 for _ in range(n)]
+    visited = [False for _ in range(n)]
+    for (a, b) in edge:
+        graph[a - 1].append(b - 1)
+        graph[b - 1].append(a - 1)
+    distance = dijkstra(0, graph, distance, visited)
+    distance.sort(reverse=True)
+    return distance.count(distance[0])
 
 
 class MyTestCase(unittest.TestCase):
