@@ -8,6 +8,7 @@ def dijkstra(start, edge, distance, visited):
     queue = deque([])
     queue.append((start, 0))
     distance[start] = 0
+    visited[start] = True
     while queue:
         start, cost = queue.popleft()
         visited[start] = True
@@ -26,11 +27,7 @@ def solution(n, edge):
     visited = [False] * (n + 1)
     distance = dijkstra(1, edge, distance, visited)
     max_value = max(distance[1:])
-    count = 0
-    for i in range(1, n + 1):
-        if distance[i] == max_value:
-            count += 1
-    return count
+    return distance.count(max_value)
 
 
 class MyTestCase(unittest.TestCase):
