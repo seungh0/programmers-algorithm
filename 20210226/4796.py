@@ -1,10 +1,10 @@
 import unittest
 
 
-def solution(n, p, v):
-    a = v // p
-    c = v % p if v % p < n else n
-    return a * n + c
+def solution(l, p, v):
+    repeat = v // p
+    remains = min(v % p, l)
+    return repeat * l + remains
 
 
 # cnt = 1
