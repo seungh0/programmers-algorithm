@@ -26,16 +26,16 @@ def solution(plus, minus):
     return total
 
 
-n = int(input())
-plus = []
-minus = []
-for i in range(n):
-    n = int(input())
-    if n >= 1:
-        plus.append(n)
-    else:
-        minus.append(n)
-print(solution(plus, minus))
+# n = int(input())
+# plus = []
+# minus = []
+# for i in range(n):
+#     n = int(input())
+#     if n >= 1:
+#         plus.append(n)
+#     else:
+#         minus.append(n)
+# print(solution(plus, minus))
 
 
 class MyTestCase(unittest.TestCase):

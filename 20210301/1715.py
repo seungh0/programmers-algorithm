@@ -3,28 +3,25 @@ import heapq
 
 
 def solution(param):
-    if len(param) == 1:
-        return 0
-
     q = []
     for i in param:
         heapq.heappush(q, i)
 
-    answer = 0
+    result = 0
     while len(q) > 1:
         left = heapq.heappop(q)
         right = heapq.heappop(q)
         total = left + right
-        answer += total
+        result += total
         heapq.heappush(q, total)
-    return answer
+    return result
 
 
-n = int(input())
-r = []
-for i in range(n):
-    r.append(int(input()))
-print(solution(r))
+# n = int(input())
+# r = []
+# for i in range(n):
+#     r.append(int(input()))
+# print(solution(r))
 
 
 class MyTestCase(unittest.TestCase):
