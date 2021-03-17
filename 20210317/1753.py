@@ -1,17 +1,30 @@
 import unittest
 import sys
+import heapq
 
 input = sys.stdin.readline
 
 INF = 1e9
 
 
-def dfs(graph, start, now, result):
-    for node, dist in graph[start]:
-        distance = now + dist
-        if distance < result[node]:
-            result[node] = distance
-            dfs(graph, node, distance, result)
+def dfs(n, graph, start):
+    result = [INF] * (n + 1)
+    result[start] = 0
+    q = []
+    heapq.heappush(q, (0, start))
+
+    while q:
+        dist, node = heapq.heappop(q)
+
+        if result[node] > dist:
+            continue
+
+        for node, d in graph[node]:
+            distance = dist + d
+
+            if distance < result[node]:
+                result[node] = distance
+                heapq.heappush(q, (distance, node))
     return result
 
 
@@ -24,12 +37,7 @@ def init_graph(n, graph):
 
 def solution(n, m, start, graph):
     graph = init_graph(n, graph)
-
-    result = [INF] * (n + 1)
-    result[start] = 0
-
-    result = dfs(graph, start, 0, result)
-
+    result = dfs(n, graph, start)
     return result[1:]
 
 
