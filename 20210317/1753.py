@@ -7,56 +7,37 @@ input = sys.stdin.readline
 INF = 1e9
 
 
+def init_graph(n, graph):
+    g = [[] * n for _ in range(n + 1)]
+    for start, end, dist in graph:
+        g[start].append((end, dist))
+    return g
+
+
 def dfs(n, graph, start):
     result = [INF] * (n + 1)
     result[start] = 0
+
     q = []
     heapq.heappush(q, (0, start))
 
     while q:
-        dist, node = heapq.heappop(q)
+        weight, node = heapq.heappop(q)
 
-        if result[node] > dist:
+        if weight > result[node]:
             continue
 
-        for node, d in graph[node]:
-            distance = dist + d
-
-            if distance < result[node]:
-                result[node] = distance
-                heapq.heappush(q, (distance, node))
-    return result
-
-
-def init_graph(n, graph):
-    g = [[] for _ in range(n + 1)]
-    for x, y, dist in graph:
-        g[x].append((y, dist))
-    return g
+        for n, w in graph[node]:
+            distance = weight + w
+            if distance < result[n]:
+                result[n] = distance
+                heapq.heappush(q, (distance, n))
+    return result[1:]
 
 
 def solution(n, m, start, graph):
     graph = init_graph(n, graph)
-    result = dfs(n, graph, start)
-    return result[1:]
-
-
-def test():
-    n, m = map(int, input().split(" "))
-    start = int(input())
-    result = []
-    for i in range(m):
-        result.append(map(int, input().split(" ")))
-    answer = solution(n, m, start, result)
-
-    for i in answer:
-        if i == INF:
-            print("INF")
-        else:
-            print(i)
-
-
-test()
+    return dfs(n, graph, start)
 
 
 class MyTestCase(unittest.TestCase):
