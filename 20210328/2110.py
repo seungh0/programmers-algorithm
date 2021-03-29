@@ -26,20 +26,17 @@ def solution(n, c, array):
     return result
 
 
-n, m = map(int, input().split())
-array = []
-for i in range(n):
-    array.append(int(input()))
-print(solution(n, m, array))
+# n, m = map(int, input().split())
+# array = []
+# for i in range(n):
+#     array.append(int(input()))
+# print(solution(n, m, array))
 
 
 class MyTestCase(unittest.TestCase):
     def test_something(self):
         result = solution(5, 3, [1, 2, 8, 4, 9])
         self.assertEqual(result, 3)
-
-
-# 1 2 4 8 9
 
 
 if __name__ == '__main__':
