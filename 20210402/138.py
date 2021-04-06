@@ -38,6 +38,27 @@ def my_solution(words):
     return True
 
 
+def solution2(words):
+    words = ''.join(words.replace(',', '').replace('.', '').replace(':', '').split()).lower()
+    for i in range(0, len(words) // 2):
+        if words[i] != words[len(words) - i - 1]:
+            return False
+    return True
+
+
+def solution3(words):
+    strs = deque()
+
+    for char in words:
+        if char.isalnum():
+            strs.append(char.lower())
+
+    while len(strs) > 1:
+        if strs.popleft() != strs.pop():
+            return False
+    return True
+
+
 class MyTestCase(unittest.TestCase):
     def test_something(self):
         result = my_solution("A man, a plan, a canal: Panama")
@@ -61,6 +82,22 @@ class MyTestCase(unittest.TestCase):
 
     def test_something5(self):
         result = book_fast_solution("race a car")
+        self.assertEqual(result, False)
+
+    def test_something6(self):
+        result = solution2("A man, a plan, a canal: Panama")
+        self.assertEqual(result, True)
+
+    def test_something7(self):
+        result = solution2("race a car")
+        self.assertEqual(result, False)
+
+    def test_something8(self):
+        result = solution3("A man, a plan, a canal: Panama")
+        self.assertEqual(result, True)
+
+    def test_something9(self):
+        result = solution3("race a car")
         self.assertEqual(result, False)
 
 

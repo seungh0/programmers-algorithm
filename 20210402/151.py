@@ -20,6 +20,16 @@ def solution1(words, banned):
     return collections.Counter(words).most_common(1)[0][0]
 
 
+def solution2(words, banned):
+    keywords = words.replace(",", '').replace(".", '').lower().split()
+    keys = []
+    for keyword in keywords:
+        if keyword not in banned:
+            keys.append(keyword)
+    counter = collections.Counter(keys)
+    return counter.most_common(1)[0][0]
+
+
 class MyTestCase(unittest.TestCase):
     def test_something(self):
         result = solution("Bob hit a ball, the hit BALL flew far after it was hit.", ["hit"])
@@ -27,6 +37,10 @@ class MyTestCase(unittest.TestCase):
 
     def test_something1(self):
         result = solution1("Bob hit a ball, the hit BALL flew far after it was hit.", ["hit"])
+        self.assertEqual(result, "ball")
+
+    def test_something2(self):
+        result = solution2("Bob hit a ball, the hit BALL flew far after it was hit.", ["hit"])
         self.assertEqual(result, "ball")
 
 
